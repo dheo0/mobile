@@ -35,30 +35,14 @@
             <ul>
                 <li>
                     <div class="element" draggable="true">
-                        <div class="account">txt</div>
-                        <button type="button"><span>이동</span></button>
+                        <div>
+                            <div class="bank">txt</div>
+                            <div class="bank">txt</div>
+                            <button type="button"><span>이동</span></button>
+                        </div>
                     </div>
                 </li>
-                <li>
-                    <div class="element" draggable="true">
-                        <button type="button"><span>이동</span></button>
-                    </div>
-                </li>
-                <li>
-                    <div class="element" draggable="true">
-                        <button type="button"><span>이동</span></button>
-                    </div>
-                </li>
-                <li>
-                    <div class="element" draggable="true">
-                        <button type="button"><span>이동</span></button>
-                    </div>
-                </li>
-                <li>
-                    <div class="element" draggable="true">
-                        <button type="button"><span>이동</span></button>
-                    </div>
-                </li>
+                
             </ul>
         </div>
 
@@ -88,14 +72,17 @@
     }
 
     function touchend() {
+        // 누르는 시간 체크  0.5 초이상 누르지 않았을 경우
         if(timer){
             clearTimeout(timer);
             timer = null
+            alert("0.5초이상 누르지 않았습니다")
         }
     }
 
     onlongtouch = function(){
         timer = null;
+        // 누르는 시간 체크  0.5 초이상 눌렀을 경우
         alert("0.5초가 지났습니다")
     }
 
@@ -105,7 +92,10 @@
     })
     
         
-    
+    function normalClick(e){
+        e.preventDefault();
+        alert("alert")
+    }
 </script>   
 </body>
 </html>

@@ -10,6 +10,102 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <div id="wrap"></div>    
+    <div id="wrap">
+        <div class="dim"></div>
+        <!--
+            이동버튼을 탭하고 있으면 1.5초후 해당 element가 있는 li에 "dragable" 클래스 추가
+
+            1. 드래그를 안할 경우 -> 해당 li dragable 클래스 제거
+            2. 드래그 해서 이동할 경우
+            -> 드랍하는 곳의 li의 클래스 target
+            -> 이체 팝업
+            -> 취소시 다시 원래 상태로
+
+            function longPressCheck(_time) {
+                // 몇 초를 누를건지를 체크
+                var time = _time;
+                setTimeout( touchAble , time);
+            }
+
+            function touchAble() {
+
+            }
+        -->
+        <div class="dragDropWrap" id="dropZone">
+            <ul>
+                <li>
+                    <div class="element" draggable="true">
+                        <div class="account">txt</div>
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </li>
+                <li>
+                    <div class="element" draggable="true">
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </li>
+                <li>
+                    <div class="element" draggable="true">
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </li>
+                <li>
+                    <div class="element" draggable="true">
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </li>
+                <li>
+                    <div class="element" draggable="true">
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal">
+            <div class="btn-group">
+                <button type="button"><span>취소</span></button>
+                <button type="button"><span>이체</span></button>
+            </div>
+        </div>
+    </div> 
+
+<script>
+    /*
+        드래그시 방향은 y로만
+    
+    */
+
+    var onlongtouch;
+    var timer;
+    var duration = 500;
+
+    function touchstart(e) {
+        e.preventDefault();
+        if(!timer){
+            timer = setTimeout(onlongtouch, duration)
+        }
+    }
+
+    function touchend() {
+        if(timer){
+            clearTimeout(timer);
+            timer = null
+        }
+    }
+
+    onlongtouch = function(){
+        timer = null;
+        alert("0.5초가 지났습니다")
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        window.addEventListener("touchstart", touchstart, false);
+        window.addEventListener("touchend", touchend, false);
+    })
+    
+        
+    
+</script>   
 </body>
 </html>

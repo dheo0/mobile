@@ -1,0 +1,2 @@
+.dragDropWrap ul>li{position: relative;width: 100%;min-height: 250px;border:1px solid #000;box-sizing: border-box;}
+.dragDropWrap .element{position: absolute;left:0;top:0;background: #fff;width:100%;height: 100%;}

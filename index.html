@@ -7,43 +7,51 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, shrink-to-fit=no">
     <title>Drag and Drop</title>
     <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/style.css" />
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+  
 </head>
 <body>
     <div id="wrap">
         <div class="dim"></div>
         <!--
-            이동버튼을 탭하고 있으면 1.5초후 해당 element가 있는 li에 "dragable" 클래스 추가
+            1. element div를 0.5초 탭하기 -> 해당 엘리먼트 z-index : 9999
 
-            1. 드래그를 안할 경우 -> 해당 li dragable 클래스 제거
-            2. 드래그 해서 이동할 경우
-            -> 드랍하는 곳의 li의 클래스 target
-            -> 이체 팝업
-            -> 취소시 다시 원래 상태로
-
-            function longPressCheck(_time) {
-                // 몇 초를 누를건지를 체크
-                var time = _time;
-                setTimeout( touchAble , time);
-            }
-
-            function touchAble() {
-
-            }
+            2. 탭한 div를 아무동작없이 놓았을 때 
+            -> myObject.draggable( 'disable' ) or myObject.draggable( 'enable' );
         -->
         <div class="dragDropWrap" id="dropZone">
-            <ul>
-                <li>
-                    <div class="element" draggable="true">
-                        <div>
-                            <div class="bank">txt</div>
-                            <div class="bank">txt</div>
-                            <button type="button"><span>이동</span></button>
-                        </div>
+            <div class="dropArea">
+                <div class="element">
+                    <div>
+                        <div class="bank">txt</div>
+                        <div class="bank">txt</div>
+                        <button type="button"><span>이동</span></button>
                     </div>
-                </li>
-                
-            </ul>
+                </div>
+            </div>
+            <div class="dropArea">
+                <div class="element">
+                    <div>
+                        <div class="bank">txt</div>
+                        <div class="bank">txt</div>
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="dropArea">
+                <div class="element">
+                    <div>
+                        <div class="bank">txt</div>
+                        <div class="bank">txt</div>
+                        <button type="button"><span>이동</span></button>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
         <div class="modal">
@@ -55,6 +63,19 @@
     </div> 
 
 <script>
+    $(function(){
+        $( ".dropArea" ).droppable({
+            accept: ".element",
+            classes: {
+            "ui-droppable-active": "ui-state-active",
+            "ui-droppable-hover": "ui-state-hover"
+            },
+        drop: function( event, ui ) {
+            $( this )
+            .addClass( "ui-state-highlight");
+        }
+        });
+    })
     /*
         드래그시 방향은 y로만
     
@@ -76,19 +97,30 @@
         if(timer){
             clearTimeout(timer);
             timer = null
-            alert("0.5초이상 누르지 않았습니다")
+            alert("0.5초이상 누르지 않았습니다")            
         }
     }
 
     onlongtouch = function(){
         timer = null;
         // 누르는 시간 체크  0.5 초이상 눌렀을 경우
-        alert("0.5초가 지났습니다")
+        console.log("0.5초가 지났습니다")
+        $(".element").draggable({
+            axis: "y",
+            stop: function(){
+                $(this).draggable("disabled")
+            }
+        });
     }
 
     document.addEventListener("DOMContentLoaded", function(event) {
-        window.addEventListener("touchstart", touchstart, false);
-        window.addEventListener("touchend", touchend, false);
+        var elem = document.querySelectorAll(".element")
+        for (var i = 0; i < elem.length; i ++) {
+            elem[i].addEventListener("touchstart", touchstart, false);
+            elem[i].addEventListener("touchend", touchend, false);
+        }
+        // window.addEventListener("touchstart", touchstart, false);
+        // window.addEventListener("touchend", touchend, false);
     })
     
         
@@ -96,6 +128,17 @@
         e.preventDefault();
         alert("alert")
     }
+
+    /*
+         $("div[id='dragx']").draggable({
+            axis: "x"
+        });
+ 
+        $("div[id='dragy']").draggable({
+            axis: "y"
+        });
+    */
+
 </script>   
 </body>
 </html>

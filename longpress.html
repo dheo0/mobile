@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta  charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no,address=no,email=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, shrink-to-fit=no">
+    <title>Drag and Drop</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+    <style>
+        [data-drop-target] {
+			height: 400px;
+			width: 200px;
+			margin: 25px;
+			background-color: gainsboro;
+			float: left;
+		}
+		.drag-enter {
+			border: 2px dashed #000;
+		}
+		.box {
+			width: 100px;
+			height: 100px;
+      float: left;
+		}
+    .box:nth-child(3) {
+      clear: both;
+    }
+		.navy {
+			background-color: navy;
+		}
+		.red {
+			background-color: firebrick;
+		}
+    .green {
+			background-color: darkgreen;
+		}
+		.orange {
+			background-color: orange;
+		}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <h2>Drag my blocks panel to panel!</h2>
+    <div data-drop-target="true">
+        <div id="box1" draggable="true" class="box navy"></div>
+        <div id="box2" draggable="true" class="box red"></div>
+        <div id="box3" draggable="true" class="box green"></div>
+        <div id="box4" draggable="true" class="box orange"></div>
+        <div id="box5" draggable="true" class="box navy"></div>
+        <div id="box6" draggable="true" class="box red"></div>
+        <div id="box7" draggable="true" class="box green"></div>
+        <div id="box8" draggable="true" class="box orange"></div>
+    </div>
+    <!--Second Drop Target-->
+        <div data-drop-target="true"></div>
+    </div> 
+
+<script>
+var box = document.querySelectorAll(".box");
+var timer = null;
+var duration = 500;
+
+for(var i =0 ;i < box.length; i++){
+    box[i].addEventListener("touchstart", touchstart);
+    box[i].addEventListener("touchend", touchend);
+}
+function touchstart(event){
+    var target = event.target;
+    var eID = target.id;
+    console.log(target.id)
+    // 누르는 시간이 지나면 동작실행
+    timer = setTimeout(function(){
+        touchmove(eID);
+    }, duration)
+}
+
+function touchend() {
+    // duration 한 시간 보다 짧으면 아무동작하지 않음
+    clearTimeout(timer)
+}
+
+function touchmove(eID){
+    var elem = document.querySelector("#"+eID);
+}
+</script>   
+</body>
+</html>

@@ -11,14 +11,12 @@
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/jquery-1.12.4.js"></script>
     <script src="js/jquery-ui.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
-  
 </head>
 <body>
     <div id="wrap">
         <div class="dim"></div>
         <!--
-            1. element div를 0.5초 탭하기 -> 해당 엘리먼트 z-index : 9999
+            1. element div를 0.5초 탭하기 -> 해당 엘리먼트 z-index : 9999 (완료)
 
             2. 탭한 div를 아무동작없이 놓았을 때 
             -> myObject.draggable( 'disable' ) or myObject.draggable( 'enable' );
@@ -63,65 +61,23 @@
     </div> 
 
 <script>
-$(function(){
-    $( ".dropArea" ).droppable({
-        accept: ".element",
-        classes: {
-        "ui-droppable-active": "ui-state-active",
-        "ui-droppable-hover": "ui-state-hover"
-        },
-        drop: function( event, ui ) {
-        $( this ).addClass( "ui-state-highlight");
-        }
-    });
-    
-    var onlongtouch;
-    var timer;
-    var duration = 500;
+var t;
+$(document).on('touchstart','.element', function (event) {
+  var self = this;
+  if ($(self).hasClass('draggable')) {
+    return;
+  }
+  t = setTimeout(function () {
+    $(self).draggable().draggable('enable').addClass('draggable');
+    console.log('start drag');
+    $(self).trigger(event)
+  }, 500);
+});
 
-    function touchstart(e) {
-        e.preventDefault();
-        if(!timer){
-            timer = setTimeout(onlongtouch, duration)
-        }
-    }
-
-    function touchend() {
-        // 누르는 시간 체크  0.5 초이상 누르지 않았을 경우
-        if(timer){
-            clearTimeout(timer);
-            timer = null
-            alert("0.5초이상 누르지 않았습니다")
-            $(this).draggable("destroy");
-        }
-    }
-
-    onlongtouch = function(){
-        timer = null;
-        // 누르는 시간 체크  0.5 초이상 눌렀을 경우
-        console.log("0.5초가 지났습니다")
-        $(".element").draggable({
-            stack:".element",
-            axis: "y",
-            drop: function(event, ui) {
-                clearTimeout(timer);
-            }
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", function(event) {
-        var elem = document.querySelectorAll(".element")
-        for (var i = 0; i < elem.length; i ++) {
-            elem[i].addEventListener("touchstart", touchstart, false);
-            elem[i].addEventListener("touchend", touchend, false);
-        }
-        // window.addEventListener("touchstart", touchstart, false);
-        // window.addEventListener("touchend", touchend, false);
-    })
-    
-        
-   
-})
+$(document).on("touchend", function () {
+  clearTimeout(t);
+  $('.draggable').removeClass('draggable').draggable( 'disable' )
+});
 
 </script>   
 </body>
